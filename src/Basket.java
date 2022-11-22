@@ -1,8 +1,6 @@
 import java.io.*;
 
 public class Basket {
-
-
     protected String[] products;
     protected int[] price;
     protected int[] prodAmount;
@@ -13,8 +11,8 @@ public class Basket {
         this.prodAmount = new int[products.length];
     }
 
-    public Basket(String[] productName, int[] price, int[] prodAmount) {
-        this.products = productName;
+    public Basket(String[] products, int[] price, int[] prodAmount) {
+        this.products = products;
         this.price = price;
         this.prodAmount = prodAmount;
     }
@@ -79,4 +77,3 @@ public class Basket {
         }
     }
 }
-

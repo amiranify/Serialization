@@ -2,7 +2,7 @@ import java.io.File;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String... args) throws Exception {
+    public static void main(String... args) throws NumberFormatException {
         String[] products = {"Хлеб", "Молоко", "Гречневая крупа", "Соль", "Сахар", "Растительное масло",
                 "Сливочное масло", "Сыр", "Майонез", "Чеснок", "Бананы", "Яблоки", "Крабовые палочки",
                 "Йогурт", "Пюре детское Тёма ", "Печенье Юбилейное", "Сок Добрый",
