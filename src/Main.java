@@ -2,20 +2,15 @@ import java.io.File;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
+    public static void main(String... args) throws Exception {
         String[] products = {"Хлеб", "Молоко", "Гречневая крупа", "Соль", "Сахар", "Растительное масло",
                 "Сливочное масло", "Сыр", "Майонез", "Чеснок", "Бананы", "Яблоки", "Крабовые палочки",
-                "Йогурт", "Пюре детское Фруто-няня", "Печенье Юбилейное", "Сок Добрый",
+                "Йогурт", "Пюре детское Тёма ", "Печенье Юбилейное", "Сок Добрый",
                 "Кефир Весёлый молочник", "Колбаса Краковская", "Рис"};
         int[] prices = {33, 69, 80, 20, 65, 110, 150, 140, 86, 40, 59, 72, 79, 93, 75, 35, 86, 76, 230, 99};
         Basket basket = new Basket(products, prices);
-        int[] sum = new int[prices.length];
-        int[] count = new int[products.length];
-
-        int productNumber = 0;
-        int productCount = 0;
-        int sumProducts = 0;
-
+        int productNum;
+        int amount;
 
         File basketFile = new File("basket.txt");
         Scanner scanner = new Scanner(System.in);
@@ -31,8 +26,7 @@ public class Main {
             }
         }
 
-
-        System.out.println("Список возможных товаров для покупки: ");
+        System.out.println("Ваша корзина: ");
         for (int i = 0; i < products.length; i++) {
             System.out.println((i + 1) + ". " + products[i] + " " + prices[i] + " руб./шт.");
         }
@@ -47,44 +41,43 @@ public class Main {
 
             String[] split = input.split(" ");
             if (split.length != 2) {
-                System.out.println("Ошибка ввода: Вы ввели 1 число или более 2 чисел ");
+                System.out.println("Ошибка ввода! Вы ввели одно или более двух чисел \n" +
+                        "Ввод производится в формате двух чисел через пробел!");
                 continue;
             }
 
-
-            // Исключение для ввода слов NumberFormatException
             try {
-                String a = split[0];//до пробела, чтобы получить номер продукта
-                productNumber = Integer.parseInt(a) - 1;
-                // throw new NumberFormatException("Ошибка ввода: Вы ввели не число. Для корректной работы программы введите число!");
+                String a = split[0];
+                productNum = Integer.parseInt(a) - 1;
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка ввода: Вы ввели не число. Для корректной работы программы введите число!");
+                System.out.println("Ошибка ввода! Вы ввели не число! \n" +
+                        "Ввод производится в формате двух чисел через пробел!");
                 continue;
             }
-            if (productNumber + 1 > products.length || productNumber < 0) {
-                System.out.println("Ошибка ввода: Вы ввели слишком большое или неположительное число!");
+            if (productNum + 1 > products.length || productNum < 0) {
+                System.out.println("Ошибка ввода! Вы ввели слишком большое или отрицательное число! \n" +
+                        "Ввод производится в формате двух чисел через пробел!");
                 continue;
             }
 
-
-            String b = split[1]; //после пробела, чтобы получить количество
             try {
-
-                productCount = Integer.parseInt(b);
+                String b = split[1];
+                amount = Integer.parseInt(b);
             } catch (NumberFormatException e) {
-                System.out.println("Ошибка ввода: Вы ввели не число. Для корректной работы программы введите число!");
+                System.out.println("Ошибка ввода! Вы ввели не число! \n" +
+                        "Ввод производится в формате двух чисел через пробел!");
                 continue;
             }
 
-            if (productCount < 0) {
-                System.out.println("Ошибка ввода: Вы ввели слишком большое или неположительное число!");
+            if (amount < 0) {
+                System.out.println("Ошибка ввода! Вы ввели отрицательное число! \n" +
+                        "Ввод производится в формате двух чисел через пробел!");
                 continue;
             }
 
-            basket.addToCart(productNumber, productCount);
+            basket.addToCart(productNum, amount);
             basket.saveTxt(basketFile);
             basket.printCart();
         }
-        // basket.printCart();
     }
 }
