@@ -1,6 +1,9 @@
 import java.io.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-public class Basket {
+public class Basket implements Serializable {
+    private static final long serialVersionUID = 1L;
     protected String[] products;
     protected int[] price;
     protected int[] prodAmount;
@@ -75,5 +78,19 @@ public class Basket {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void saveToJSON(File textFile) throws IOException {
+        FileWriter writer = new FileWriter(textFile);
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        writer.write(gson.toJson(this, Basket.class));
+        writer.close();
+    }
+
+    public static Basket loadFromJSON(File textFile) throws FileNotFoundException {
+        Gson gson = new Gson();
+        FileReader reader = new FileReader(textFile);
+        return gson.fromJson(reader, Basket.class);
     }
 }
