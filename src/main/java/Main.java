@@ -22,7 +22,7 @@ public class Main {
         if (basketFile.exists()) {
             System.out.println("Загрузить корзину");
             if (scanner.equals("")) {
-                basket = Basket.loadFromTxtFile(basketFile);
+                basket = Basket.loadFromJSON(json);
                 basket.printCart();
                 System.out.println(" ");
             } else {
