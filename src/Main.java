@@ -2,7 +2,7 @@ import java.io.File;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String... args) throws NumberFormatException {
+    public static void main(String... args) throws Exception {
         String[] products = {"Хлеб", "Молоко", "Гречневая крупа", "Соль", "Сахар", "Растительное масло",
                 "Сливочное масло", "Сыр", "Майонез", "Чеснок", "Бананы", "Яблоки", "Крабовые палочки",
                 "Йогурт", "Пюре детское Тёма ", "Печенье Юбилейное", "Сок Добрый",
@@ -12,15 +12,15 @@ public class Main {
         int productNum;
         int amount;
 
-        File basketFile = new File("basket.txt");
+        File basketFile = new File("basket.bin");
         Scanner scanner = new Scanner(System.in);
 
         if (basketFile.exists()) {
             System.out.println("Загрузить корзину");
             if (scanner.equals("")) {
-                basket = Basket.loadFromTxtFile(basketFile);
+                basket = Basket.loadFromBinFile(basketFile);
                 basket.printCart();
-                System.out.println(" ");
+                basket = new Basket(products, prices);
             } else {
                 basket = new Basket(products, prices);
             }
@@ -74,9 +74,8 @@ public class Main {
                         "Ввод производится в формате двух чисел через пробел!");
                 continue;
             }
-
             basket.addToCart(productNum, amount);
-            basket.saveTxt(basketFile);
+            basket.saveBin(basketFile);
             basket.printCart();
         }
     }

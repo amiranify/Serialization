@@ -1,6 +1,7 @@
 import java.io.*;
 
-public class Basket {
+public class Basket implements Serializable {
+    private static final long serialVersionUID = 1L;
     protected String[] products;
     protected int[] price;
     protected int[] prodAmount;
@@ -33,47 +34,19 @@ public class Basket {
         System.out.println("Общий счет: " + sumProducts + " рублей.");
     }
 
-    public void saveTxt(File textFile) throws RuntimeException {
-        try (FileWriter out = new FileWriter(textFile);) {
-            for (String st : products) {
-                out.write(st + ", ");
-            }
-            out.write("\n");
-            for (int pr : price) {
-                out.write(pr + ", ");
-            }
-            out.write("\n");
-            for (int amount : prodAmount) {
-                out.write(amount + ", ");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public void saveBin(File file) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file);
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+            objectOutputStream.writeObject(this);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    public static Basket loadFromTxtFile(File textFile) {
-        try (BufferedReader br = new BufferedReader(new FileReader(textFile))) {
-            String productName = br.readLine();
-            String price = br.readLine();
-            String prodAmount = br.readLine();
-
-            String[] productStr = productName.split(", ");
-
-            String[] priceStr = price.split(", ");
-            int[] priceInt = new int[priceStr.length];
-            for (int i = 0; i < priceInt.length; i++) {
-                priceInt[i] = Integer.parseInt(priceStr[i]);
-            }
-
-            String[] amountStr = prodAmount.split(", ");
-            int[] amountInt = new int[amountStr.length];
-            for (int i = 0; i < amountInt.length; i++) {
-                amountInt[i] = Integer.parseInt(amountStr[i]);
-            }
-
-            return new Basket(productStr, priceInt, amountInt);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public static Basket loadFromBinFile(File file) throws IOException, ClassNotFoundException {
+        FileInputStream fileInputStream = new FileInputStream(file);
+        ObjectInputStream ois = new ObjectInputStream(fileInputStream);
+        return (Basket) ois.readObject();
     }
 }
