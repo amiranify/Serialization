@@ -1,6 +1,6 @@
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class ClientLog {
     StringBuilder builder = new StringBuilder("productNum, amount\n");
@@ -10,12 +10,8 @@ public class ClientLog {
     }
 
     public void exportAsCSV(File txtFile) throws IOException {
-        FileWriter writer = new FileWriter(txtFile);
-        writer.write(String.valueOf(builder));
-        writer.close();
-
+        try(PrintWriter writer = new PrintWriter(txtFile)) {
+            writer.println(String.valueOf(builder));
+        }
     }
-
 }
-
-
